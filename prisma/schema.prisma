@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Post {
+  id        String    @id @default(uuid())
+  title     String
+  content   String
+  comments  Comment[]
+  createdAt DateTime  @default(now())
+}
+
+model Comment {
+  id        String     @id @default(uuid())
+  content   String
+  postId    String
+  post      Post       @relation(fields: [postId], references: [id])
+  signature Signature?
+  createdAt DateTime   @default(now())
+}
+
+model Signature {
+  id        String  @id @default(uuid())
+  content   String  @unique
+  commentId String  @unique
+  comment   Comment @relation(fields: [commentId], references: [id])
+  password  String
+}
