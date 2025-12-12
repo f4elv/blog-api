@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -10,7 +9,7 @@ datasource db {
 model Post {
   id        String    @id @default(uuid())
   title     String
-  content   String
+  content   Json
   comments  Comment[]
   createdAt DateTime  @default(now())
 }

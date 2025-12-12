@@ -1,8 +1,6 @@
 import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { WriterLoginDto } from './dtos/create-writer-login.dto';
-import { networkInterfaces } from 'os';
-import { access } from 'fs';
 
 @Injectable()
 export class AuthService {
@@ -13,8 +11,8 @@ export class AuthService {
         const { password } = writerLoginDto;
         const writerPassword = process.env.WRITER_PASSWORD;
 
-        if (password != writerPassword) {
-            this.logger.warn('Errou a senha de login');
+        if (password != writerPassword || !password) {
+            this.logger.warn('Writer errou a senha de login');
             throw new UnauthorizedException('Senha inválida');
         }
 
@@ -25,6 +23,7 @@ export class AuthService {
 
         const token = this.jwtService.sign(payload);
 
+        this.logger.log('Writer realizou o login com sucesso');
         return {
             access_token: token,
             message: 'Login realizado com sucesso',
