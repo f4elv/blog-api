@@ -1,9 +1,13 @@
 import { IsString, IsNotEmpty } from 'class-validator';
 import { Escape } from 'class-sanitizer';
 
-export class WriterLoginDto {
+export class CreateSignatureDto {
+    @IsNotEmpty()
+    @IsString()
     @Escape()
-    @IsNotEmpty({ message: 'Senha é obrigatória' })
+    name: string;
+
+    @IsNotEmpty()
     @IsString()
     password: string;
 }

@@ -15,18 +15,19 @@ model Post {
 }
 
 model Comment {
-  id        String     @id @default(uuid())
-  content   String
-  postId    String
-  post      Post       @relation(fields: [postId], references: [id])
-  signature Signature?
-  createdAt DateTime   @default(now())
+  id          String    @id @default(uuid())
+  content     String
+  postId      String
+  post        Post      @relation(fields: [postId], references: [id])
+  signatureId String
+  signature   Signature @relation(fields: [signatureId], references: [id])
+  createdAt   DateTime  @default(now())
 }
 
 model Signature {
-  id        String  @id @default(uuid())
-  content   String  @unique
-  commentId String  @unique
-  comment   Comment @relation(fields: [commentId], references: [id])
+  id        String    @id @default(uuid())
+  name      String    @unique
+  comments  Comment[]
   password  String
+  createdAt DateTime  @default(now())
 }
